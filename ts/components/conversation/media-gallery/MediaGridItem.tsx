@@ -1,7 +1,7 @@
 // Copyright 2018 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import classNames from 'classnames';
 
 import type { ReadonlyDeep } from 'type-fest';
@@ -16,11 +16,13 @@ import * as log from '../../../logging/log';
 export type Props = {
   mediaItem: ReadonlyDeep<MediaItemType>;
   onClick?: () => void;
+  checkmark: boolean;
   i18n: LocalizerType;
 };
 
 type State = {
   imageBroken: boolean;
+  clickedThing: boolean;
 };
 
 export class MediaGridItem extends React.Component<Props, State> {
@@ -31,6 +33,7 @@ export class MediaGridItem extends React.Component<Props, State> {
 
     this.state = {
       imageBroken: false,
+      clickedThing: false,
     };
 
     this.onImageErrorBound = this.onImageError.bind(this);
@@ -47,7 +50,7 @@ export class MediaGridItem extends React.Component<Props, State> {
 
   public renderContent(): JSX.Element | null {
     const { mediaItem, i18n } = this.props;
-    const { imageBroken } = this.state;
+    const { imageBroken, clickedThing } = this.state;
     const { attachment, contentType } = mediaItem;
 
     if (!attachment) {
@@ -55,6 +58,7 @@ export class MediaGridItem extends React.Component<Props, State> {
     }
 
     if (contentType && isImageTypeSupported(contentType)) {
+      console.log('TODO4 - TEST 1');
       if (imageBroken || !mediaItem.thumbnailObjectUrl) {
         return (
           <div
@@ -67,15 +71,24 @@ export class MediaGridItem extends React.Component<Props, State> {
       }
 
       return (
-        <img
-          alt={i18n('lightboxImageAlt')}
-          className="module-media-grid-item__image"
-          src={mediaItem.thumbnailObjectUrl}
-          onError={this.onImageErrorBound}
-        />
+        <div className="module-media-grid-item__image-container">
+          <img
+            alt={i18n('lightboxImageAlt')}
+            className="module-media-grid-item__image"
+            src={mediaItem.thumbnailObjectUrl}
+            onError={this.onImageErrorBound}
+          />
+          {/* <div className="module-media-grid-item__checkmark_circle_solid" /> */}
+          <div
+            className={classNames({
+              'module-media-grid-item__checkmark_circle_solid': clickedThing,
+            })}
+          />
+        </div>
       );
     }
     if (contentType && isVideoTypeSupported(contentType)) {
+      console.log('TODO4 - TEST 2');
       if (imageBroken || !mediaItem.thumbnailObjectUrl) {
         return (
           <div
@@ -102,24 +115,34 @@ export class MediaGridItem extends React.Component<Props, State> {
       );
     }
 
+    console.log('TODO4 - TEST 3');
     return (
-      <div
-        className={classNames(
+      <div>
+        className=
+        {classNames(
           'module-media-grid-item__icon',
           'module-media-grid-item__icon-generic'
         )}
-      />
+      </div>
     );
   }
 
   public override render(): JSX.Element {
-    const { onClick } = this.props;
+    const { onClick, checkmark } = this.props;
+    const { clickedThing } = this.state;
 
     return (
+      // <p>WHAT</p>
       <button
         type="button"
         className="module-media-grid-item"
-        onClick={onClick}
+        onClick={() => {
+          if (onClick) {
+            onClick();
+          } else if (checkmark) {
+            this.setState({ clickedThing: !clickedThing });
+          }
+        }}
       >
         {this.renderContent()}
       </button>

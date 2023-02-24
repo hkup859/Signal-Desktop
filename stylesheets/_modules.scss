@@ -2392,6 +2392,33 @@ button.ConversationDetails__action-button {
   );
 }
 
+.module-media-grid-item__checkmark_circle_solid {
+  position: absolute;
+  left: 85%;
+  top: 85%;
+  transform: translate(-50%, -50%);
+  width: 21px;
+  height: 21px;
+  background-color: $color-white;
+  border-radius: 12px;
+
+  &::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: -1.5px;
+    left: -1.5px;
+    
+    @include color-svg(
+    '../images/icons/v2/check-circle-solid-24.svg',
+    $color-accent-blue
+  );
+  }
+  
+}
+
 .module-media-grid-item__icon-video {
   @include color-svg('../images/movie.svg', $color-gray-45);
 }

@@ -84,6 +84,7 @@ function MediaSection({
         i18n={i18n}
         type={type}
         mediaItems={section.mediaItems}
+        checked=
         onItemClick={(event: ItemClickEvent) => {
           switch (event.type) {
             case 'documents': {
@@ -92,7 +93,17 @@ function MediaSection({
             }
 
             case 'media': {
-              showLightboxWithMedia(event.attachment.path, media);
+              console.log("TODO4 - event.attachment.path: ", event.attachment.path)
+              console.log("TODO4 - event.attachment: ", event.attachment)
+              console.log("TODO4 - media: ", media)
+              console.log("TODO4 - DOCUMENT IMAGE: ", document.querySelector('.module-media-grid-item__image'))
+              console.log("TODO4 - DOCUMENT IMAGE 2: ", document.querySelector('.module-media-grid-item__image [src="PATH_HERE"]'))
+              console.log("TODO4 - DOCUMENT IMAGE 3: ", document.querySelector('[src="PATH_HERE"]'))
+              console.log("TODO4 - DOCUMENT IMAGE 4: ", document.querySelectorAll('[src="PATH_HERE"]'))
+              // document.querySelectorAll('[data-foo="value"]');
+
+              // TODO4 - This is what opens the view when clicking on media
+              // showLightboxWithMedia(event.attachment.path, media);
               break;
             }
 

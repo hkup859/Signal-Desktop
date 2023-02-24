@@ -16,6 +16,7 @@ export type Props = {
   i18n: LocalizerType;
   mediaItems: ReadonlyArray<MediaItemType>;
   onItemClick: (event: ItemClickEvent) => unknown;
+  checked: boolean;
   type: 'media' | 'documents';
 };
 
@@ -25,7 +26,9 @@ export function AttachmentSection({
   type,
   mediaItems,
   onItemClick,
+  checked,
 }: Props): JSX.Element {
+  // Recent Media Section - Add ability to select multiple and then select all like android
   return (
     <div className="module-attachment-section">
       <h2 className="module-attachment-section__header">{header}</h2>
@@ -45,6 +48,7 @@ export function AttachmentSection({
                   key={`${message.id}-${index}`}
                   mediaItem={mediaItem}
                   onClick={onClick}
+                  checkmark={checked}
                   i18n={i18n}
                 />
               );
